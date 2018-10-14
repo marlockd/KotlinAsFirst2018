@@ -63,10 +63,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age != 111 && age % 10 == 1) return "$age год"
-    else
-        if (age % 100 !in 12..14 && age % 10 in 2..4) return "$age года"
-            else return "$age лет"
+    when {
+        age != 111 && age % 10 == 1 && age != 11 -> return "$age год"
+        age % 100 !in 12..14 && age % 10 in 2..4 -> return "$age года"
+        else -> return "$age лет"
+    }
 
 }
 
@@ -80,9 +81,11 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double  {
-if ((t1 * v1 + t2 * v2 + t3 * v3) / 2 <= v1 * t1 ) return (t1 * v1 + t2 * v2 + t3 * v3) / ( 2 * v1)
-    else if ((t1 * v1 + t2 * v2 + t3 * v3) / 2  <= (v1 * t1 + v2 * t2) ) return t1 + ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - t1 * v1) / v2
-        else return t1 + t2 + ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - t1 * v1 - t2 * v2) / v3
+    when {
+        (t1 * v1 + t2 * v2 + t3 * v3) / 2 <= v1 * t1 -> return (t1 * v1 + t2 * v2 + t3 * v3) / ( 2 * v1)
+        (t1 * v1 + t2 * v2 + t3 * v3) / 2  <= (v1 * t1 + v2 * t2) -> return t1 + ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - t1 * v1) / v2
+        else -> return t1 + t2 + ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - t1 * v1 - t2 * v2) / v3
+    }
 }
 
 /**
@@ -131,9 +134,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ((b < c) || (a > d))  return -1
-        else if ((b >= d) && (a <= c)) return d - c
-            else if ((a > c) && (b < d)) return b - a
-                else if (d > b) return b - c
-                    else return d - a
+    when {
+        b < c || a > d -> return -1
+        (b >= d) && (a <= c) -> return d - c
+        (a > c) && (b < d) -> return b - a
+        d > b -> return b - c
+        else -> return d - a
+    }
 }

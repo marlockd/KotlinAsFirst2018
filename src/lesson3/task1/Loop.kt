@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import java.lang.Math.pow
 import kotlin.math.sqrt
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -191,7 +193,27 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var count = 0
+    var Number = 1
+    var sqrNumber = 0
+    var dight = -1
+    var FlippedSqrNumber = 0
+    while (count < n ) {
+        sqrNumber = sqr(Number)
+        while (sqrNumber >0) {
+            FlippedSqrNumber = FlippedSqrNumber * 10 + sqrNumber % 10
+            sqrNumber /= 10
+        }
+        while (FlippedSqrNumber > 0) {
+            dight = FlippedSqrNumber % 10
+            count++
+            FlippedSqrNumber /= 10
+        }
+    Number++
+    }
+    return dight
+}
 
 /**
  * Сложная
