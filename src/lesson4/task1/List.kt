@@ -239,4 +239,80 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    fun digitInRussian(n:Int): String {
+        when (n) {
+            1 -> return " один"
+            2 -> return " два"
+            3 -> return " три"
+            4 -> return " четыре"
+            5 -> return " пять"
+            6 -> return " шесть"
+            7 -> return " семь"
+            8 -> return " восемь"
+            9 -> return " девять"
+            else -> return ""
+        }
+    }
+    fun threeDigitedNumberInRussian(n: Int): String {
+        var result = digitInRussian(n % 10)
+        var m = n / 10
+
+        when (m % 10) {
+            1 -> {
+                when (n % 10) {
+                    0 -> result = " десять"
+                    1, 3 -> result = digitInRussian(n % 10) + "надцать"
+                    2 -> result = " двенадцать"
+                    else -> {
+                        var str = digitInRussian(n % 10)
+                        str = str.substring(0, str.length - 1)
+                        result = str + "надцать"
+                    }
+                }
+            }
+            2, 3 -> result = digitInRussian(m % 10) + "дцать" + result
+            4 -> result = " сорок" + result
+            5, 6, 7, 8 -> result = digitInRussian(m % 10) + "десят" + result
+            9 -> result = " девяносто" + result
+        }
+
+        m /= 10
+        when (m % 10) {
+            1 -> result = " сто" + result
+            2 -> result = " двести" + result
+            3, 4 -> result = digitInRussian(m % 10) + "ста" + result
+            in 5..9 -> result = digitInRussian(m % 10) + "сот" + result
+        }
+        return result
+    }
+
+
+        var result = ""
+        when {
+            n / 1000 > 0 -> {
+            result = threeDigitedNumberInRussian(n / 1000)
+            when {
+                (n / 1000) % 100 in 10..19 -> result = result + " тысяч"
+                else -> when ((n / 1000) % 10) {
+                    0, 5, 6, 7, 8, 9 -> result = result + " тысяч"
+                    1 -> {
+                        result = result.substring(0, result.length - 4)
+                        result = result + "одна тысяча"
+                    }
+                    2 -> {
+                        result = result.substring(0, result.length - 3)
+                        result = result + "две тысячи"
+                    }
+                    3, 4 -> result = result + " тысячи"
+
+                }
+            }
+        }
+    }
+    result = result + threeDigitedNumberInRussian(n % 1000)
+    result = result.substring(1, result.length)
+
+        return result
+
+        }

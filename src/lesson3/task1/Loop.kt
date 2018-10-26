@@ -4,6 +4,7 @@ package lesson3.task1
 import java.lang.Math.pow
 import kotlin.math.sqrt
 import lesson1.task1.sqr
+import kotlin.math.pow
 
 /**
  * Пример
@@ -68,7 +69,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var number = n
+    var count = 0
+    if (number == 0) return 1 else {
+    while (number > 0) {
+        number = number / 10
+        count++
+    } }
+    return count
+}
 
 /**
  * Простая
@@ -195,22 +205,26 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
     var count = 0
-    var Number = 1
+    var number = 1
     var sqrNumber = 0
     var dight = -1
-    var FlippedSqrNumber = 0
     while (count < n ) {
-        sqrNumber = sqr(Number)
-        while (sqrNumber >0) {
-            FlippedSqrNumber = FlippedSqrNumber * 10 + sqrNumber % 10
-            sqrNumber /= 10
-        }
-        while (FlippedSqrNumber > 0) {
-            dight = FlippedSqrNumber % 10
+        sqrNumber = sqr(number)
+        if (sqrNumber < 10) {
+            dight = sqrNumber
             count++
-            FlippedSqrNumber /= 10
         }
-    Number++
+            else { if (n > digitNumber(sqrNumber) + count) count = count + digitNumber(sqrNumber)
+                else { count = count + digitNumber(sqrNumber)
+                    while(count > n) {
+                        count--
+                        sqrNumber /= 10
+                     }
+                    dight = sqrNumber % 10
+                     }
+
+                }
+        number++
     }
     return dight
 }
@@ -224,4 +238,28 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var count = 1
+    var lastfibnumber = 1
+    var fibNumber = 1
+    var dight = -1
+    while (count < n ) {
+        if (fibNumber < 10) {
+            dight = fibNumber
+            count++
+        }
+        else { if (n > digitNumber(fibNumber) + count) count = count + digitNumber(fibNumber)
+        else { count = count + digitNumber(fibNumber)
+            while(count > n) {
+                count--
+                fibNumber /= 10
+            }
+            dight = fibNumber % 10
+        }
+        }
+        fibNumber = fibNumber + lastfibnumber
+        lastfibnumber = fibNumber - lastfibnumber
+    }
+    if ((n == 1) || (n == 2)) dight = 1
+    return dight
+}
