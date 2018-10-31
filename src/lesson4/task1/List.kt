@@ -240,7 +240,7 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    fun digitInRussian(n:Int): String {
+    fun digitInRussian(n: Int): String {
         when (n) {
             1 -> return " один"
             2 -> return " два"
@@ -254,6 +254,7 @@ fun russian(n: Int): String {
             else -> return ""
         }
     }
+
     fun threeDigitedNumberInRussian(n: Int): String {
         var result = digitInRussian(n % 10)
         var m = n / 10
@@ -272,9 +273,9 @@ fun russian(n: Int): String {
                 }
             }
             2, 3 -> result = digitInRussian(m % 10) + "дцать" + result
-            4 -> result = " сорок" + result
+            4 -> result = " сорок$result"
             5, 6, 7, 8 -> result = digitInRussian(m % 10) + "десят" + result
-            9 -> result = " девяносто" + result
+            9 -> result = " девяносто$result"
         }
 
         m /= 10
@@ -288,31 +289,31 @@ fun russian(n: Int): String {
     }
 
 
-        var result = ""
-        when {
-            n / 1000 > 0 -> {
+    var result = ""
+    when {
+        n / 1000 > 0 -> {
             result = threeDigitedNumberInRussian(n / 1000)
             when {
-                (n / 1000) % 100 in 10..19 -> result = result + " тысяч"
+                (n / 1000) % 100 in 10..19 -> result += " тысяч"
                 else -> when ((n / 1000) % 10) {
-                    0, 5, 6, 7, 8, 9 -> result = result + " тысяч"
+                    0, 5, 6, 7, 8, 9 -> result += " тысяч"
                     1 -> {
                         result = result.substring(0, result.length - 4)
-                        result = result + "одна тысяча"
+                        result += "одна тысяча"
                     }
                     2 -> {
                         result = result.substring(0, result.length - 3)
-                        result = result + "две тысячи"
+                        result += "две тысячи"
                     }
-                    3, 4 -> result = result + " тысячи"
+                    3, 4 -> result += " тысячи"
 
                 }
             }
         }
     }
-    result = result + threeDigitedNumberInRussian(n % 1000)
+    result += threeDigitedNumberInRussian(n % 1000)
     result = result.substring(1, result.length)
 
-        return result
+    return result
 
-        }
+}

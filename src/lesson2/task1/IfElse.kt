@@ -81,10 +81,10 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double  {
-    when {
-        (t1 * v1 + t2 * v2 + t3 * v3) / 2 <= v1 * t1 -> return (t1 * v1 + t2 * v2 + t3 * v3) / ( 2 * v1)
-        (t1 * v1 + t2 * v2 + t3 * v3) / 2  <= (v1 * t1 + v2 * t2) -> return t1 + ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - t1 * v1) / v2
-        else -> return t1 + t2 + ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - t1 * v1 - t2 * v2) / v3
+    return when {
+        (t1 * v1 + t2 * v2 + t3 * v3) / 2 <= v1 * t1 -> (t1 * v1 + t2 * v2 + t3 * v3) / ( 2 * v1)
+        (t1 * v1 + t2 * v2 + t3 * v3) / 2  <= (v1 * t1 + v2 * t2) -> t1 + ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - t1 * v1) / v2
+        else -> t1 + t2 + ((t1 * v1 + t2 * v2 + t3 * v3) / 2 - t1 * v1 - t2 * v2) / v3
     }
 }
 
@@ -134,11 +134,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    when {
-        b < c || a > d -> return -1
-        (b >= d) && (a <= c) -> return d - c
-        (a > c) && (b < d) -> return b - a
-        d > b -> return b - c
-        else -> return d - a
+    return when {
+        b < c || a > d -> -1
+        (b >= d) && (a <= c) -> d - c
+        (a > c) && (b < d) -> b - a
+        d > b -> b - c
+        else -> d - a
     }
 }

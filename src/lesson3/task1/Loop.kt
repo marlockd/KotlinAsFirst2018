@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import java.lang.Math.pow
@@ -41,7 +42,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -73,10 +74,11 @@ fun digitNumber(n: Int): Int {
     var number = n
     var count = 0
     if (number == 0) return 1 else {
-    while (number > 0) {
-        number = number / 10
-        count++
-    } }
+        while (number > 0) {
+            number = number / 10
+            count++
+        }
+    }
     return count
 }
 
@@ -208,22 +210,23 @@ fun squareSequenceDigit(n: Int): Int {
     var number = 1
     var sqrNumber = 0
     var dight = -1
-    while (count < n ) {
+    while (count < n) {
         sqrNumber = sqr(number)
         if (sqrNumber < 10) {
             dight = sqrNumber
             count++
-        }
-            else { if (n > digitNumber(sqrNumber) + count) count = count + digitNumber(sqrNumber)
-                else { count = count + digitNumber(sqrNumber)
-                    while(count > n) {
-                        count--
-                        sqrNumber /= 10
-                     }
-                    dight = sqrNumber % 10
-                     }
-
+        } else {
+            if (n > digitNumber(sqrNumber) + count) count += digitNumber(sqrNumber)
+            else {
+                count += digitNumber(sqrNumber)
+                while (count > n) {
+                    count--
+                    sqrNumber /= 10
                 }
+                dight = sqrNumber % 10
+            }
+
+        }
         number++
     }
     return dight
@@ -243,21 +246,22 @@ fun fibSequenceDigit(n: Int): Int {
     var lastfibnumber = 1
     var fibNumber = 1
     var dight = -1
-    while (count < n ) {
+    while (count < n) {
         if (fibNumber < 10) {
             dight = fibNumber
             count++
-        }
-        else { if (n > digitNumber(fibNumber) + count) count = count + digitNumber(fibNumber)
-        else { count = count + digitNumber(fibNumber)
-            while(count > n) {
-                count--
-                fibNumber /= 10
+        } else {
+            if (n > digitNumber(fibNumber) + count) count += digitNumber(fibNumber)
+            else {
+                count += digitNumber(fibNumber)
+                while (count > n) {
+                    count--
+                    fibNumber /= 10
+                }
+                dight = fibNumber % 10
             }
-            dight = fibNumber % 10
         }
-        }
-        fibNumber = fibNumber + lastfibnumber
+        fibNumber += lastfibnumber
         lastfibnumber = fibNumber - lastfibnumber
     }
     if ((n == 1) || (n == 2)) dight = 1
