@@ -241,17 +241,17 @@ fun roman(n: Int): String = TODO()
  */
 fun russian(n: Int): String {
     fun digitInRussian(n: Int): String {
-        when (n) {
-            1 -> return " один"
-            2 -> return " два"
-            3 -> return " три"
-            4 -> return " четыре"
-            5 -> return " пять"
-            6 -> return " шесть"
-            7 -> return " семь"
-            8 -> return " восемь"
-            9 -> return " девять"
-            else -> return ""
+        return when (n) {
+            1 -> " один"
+            2 -> " два"
+            3 -> " три"
+            4 -> " четыре"
+            5 -> " пять"
+            6 -> " шесть"
+            7 -> " семь"
+            8 -> " восемь"
+            9 -> " девять"
+            else -> ""
         }
     }
 
@@ -280,8 +280,8 @@ fun russian(n: Int): String {
 
         m /= 10
         when (m % 10) {
-            1 -> result = " сто" + result
-            2 -> result = " двести" + result
+            1 -> result = " сто$result"
+            2 -> result = " двести$result"
             3, 4 -> result = digitInRussian(m % 10) + "ста" + result
             in 5..9 -> result = digitInRussian(m % 10) + "сот" + result
         }
