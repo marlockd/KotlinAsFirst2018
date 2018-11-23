@@ -49,12 +49,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -207,4 +205,58 @@ fun fromRoman(roman: String): Int = TODO()
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+    var currentPos = cells / 2
+    val cellsArray = Array(cells) { 0 }
+    var count = 0
+    var readenCommands = 0
+
+    commands.forEach {
+        if (it == '[') count++
+        else if (it == ']') count--
+        if (count < 0)
+            throw IllegalArgumentException()
+    }
+    if (count > 0)
+        throw IllegalArgumentException() // Проверка на наличие не парных символов [ ]
+    count = 0
+
+
+    while (readenCommands < limit && count < commands.length){
+        val currentCommand = commands[count]
+        when(currentCommand) {
+            ' ' -> {}
+            '<' -> currentPos--
+            '>' -> currentPos++
+            '-' -> cellsArray[currentPos]--
+            '+' -> cellsArray[currentPos]++
+            '[' -> {
+                if (cellsArray[currentPos] == 0){
+                    var passFactor = 1
+                    while (passFactor > 0){
+                        count++
+                        if (commands[count] == '[') passFactor++
+                        else if (commands[count] == ']') passFactor--
+                    }
+                }
+            }
+            ']' -> {
+                if (cellsArray[currentPos] != 0) {
+                    var passFactor = 1
+                    while(passFactor > 0){
+                        count--
+                        if (commands[count] == ']') passFactor++
+                        else if(commands[count] == '[') passFactor--
+                    }
+                }
+            }
+            else -> throw IllegalArgumentException()
+        }
+        count++
+        readenCommands++
+        if (currentPos < 0 || currentPos >= cellsArray.size) throw IllegalStateException() // Проверка на выход за границы
+    }
+    return cellsArray.toList()
+
+}
+

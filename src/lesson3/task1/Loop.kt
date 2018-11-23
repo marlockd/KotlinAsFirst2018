@@ -5,6 +5,7 @@ package lesson3.task1
 import kotlin.math.sqrt
 import lesson1.task1.sqr
 import kotlin.math.abs
+import java.lang.Math.pow
 
 /**
  * Пример
@@ -204,32 +205,19 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
+fun findAns(n: Int, count: Int) = n / pow(10.0, count.toDouble()).toInt() % 10
 
 fun squareSequenceDigit(n: Int): Int {
     var count = 0
     var number = 1
     var sqrNumber = 0
-    var dight = -1
     while (count < n) {
         sqrNumber = sqr(number)
-        if (sqrNumber < 10) {
-            dight = sqrNumber
-            count++
-        } else {
-            if (n > digitNumber(sqrNumber) + count) count += digitNumber(sqrNumber)
-            else {
-                count += digitNumber(sqrNumber)
-                while (count > n) {
-                    count--
-                    sqrNumber /= 10
-                }
-                dight = sqrNumber % 10
-            }
+        count += digitNumber(sqrNumber)
 
-        }
         number++
     }
-    return dight
+    return findAns(sqrNumber, count - n)
 }
 
 
@@ -246,25 +234,16 @@ fun fibSequenceDigit(n: Int): Int {
     var count = 1
     var lastfibnumber = 1
     var fibNumber = 1
-    var dight = -1
+    val dight: Int
     while (count < n) {
-        if (fibNumber < 10) {
-            dight = fibNumber
-            count++
-        } else {
-            if (n > digitNumber(fibNumber) + count) count += digitNumber(fibNumber)
-            else {
-                count += digitNumber(fibNumber)
-                while (count > n) {
-                    count--
-                    fibNumber /= 10
-                }
-                dight = fibNumber % 10
-            }
-        }
+
+        count += digitNumber(fibNumber)
+
         fibNumber += lastfibnumber
         lastfibnumber = fibNumber - lastfibnumber
     }
-    if ((n == 1) || (n == 2)) dight = 1
+    dight = if ((n == 1) || (n == 2)) 1
+    else findAns(lastfibnumber, count - n)
     return dight
 }
+

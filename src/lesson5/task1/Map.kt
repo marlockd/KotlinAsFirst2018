@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+
 /**
  * Пример
  *
@@ -273,25 +275,39 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    var treasures = treasures.toList()
-    var arr: Array<Array<Int>> = arrayOf()
+    val treasures1 = ArrayList(treasures.keys)
+    val count1 = capacity + 1
+    val count2 = treasures.size + 1
+    val arr = Array(count2) { Array(count1) { 0 } }
     var set = setOf<String>()
-    for(i in 0..capacity)
-        for(j in 0..capacity)
-        arr[j][i] = 0
+    for (i in 0 until count1)
+        arr[0][i] = 0
+    for (i in 0 until count2)
+        arr[i][0] = 0
+    for (i in 1 until count2)
+        for (j in 1 until count1)
+            if (j >= treasures.values.toList()[i - 1].first)
+                arr[i][j] = max(arr[i - 1][j], arr[i - 1][j - treasures.values.toList()[i - 1].first] + treasures.values.toList()[i - 1].second)
+            else
+                arr[i][j] = arr[i - 1][j]
 
-    for(j in 1..treasures.size) {
-            for(i in 0..capacity){
-                arr[j][i] = arr[j - 1][i]
-                if((i >= treasures[j].second.first) && (arr[j-1][i - treasures[j].second.first + treasures[j].second.second] > arr[j][i]))
-                    arr[j][i] = arr[j-1][i - treasures[j].second.first + treasures[j].second.second]
 
-                if(arr[j][i] == 0) set = emptySet()
-                else if(arr[j-1][i] == arr[j][i]) set = setOf(treasures[i - 1].first)
-                else set = setOf(treasures[i-treasures[j].second.first].first)
-               }
-            }
-    return set
+
+    fun findAns(i: Int, j: Int) {
+        if (arr[i][j] == 0)
+            return
+        if (arr[i - 1][j] == arr[i][j])
+            findAns(i - 1, j)
+        else {
+            findAns(i - 1, j - treasures.values.toList()[i - 1].first)
+            set += treasures1[i - 1]
+        }
     }
+    findAns(treasures.size, capacity)
+
+    return set
+}
+
+
 
 
