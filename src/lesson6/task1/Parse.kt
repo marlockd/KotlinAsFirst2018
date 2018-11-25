@@ -222,18 +222,19 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     count = 0
 
 
-    while (readenCommands < limit && count < commands.length){
+    while (readenCommands < limit && count < commands.length) {
         val currentCommand = commands[count]
-        when(currentCommand) {
-            ' ' -> {}
+        when (currentCommand) {
+            ' ' -> {
+            }
             '<' -> currentPos--
             '>' -> currentPos++
             '-' -> cellsArray[currentPos]--
             '+' -> cellsArray[currentPos]++
             '[' -> {
-                if (cellsArray[currentPos] == 0){
+                if (cellsArray[currentPos] == 0) {
                     var passFactor = 1
-                    while (passFactor > 0){
+                    while (passFactor > 0) {
                         count++
                         if (commands[count] == '[') passFactor++
                         else if (commands[count] == ']') passFactor--
@@ -243,10 +244,10 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
             ']' -> {
                 if (cellsArray[currentPos] != 0) {
                     var passFactor = 1
-                    while(passFactor > 0){
+                    while (passFactor > 0) {
                         count--
                         if (commands[count] == ']') passFactor++
-                        else if(commands[count] == '[') passFactor--
+                        else if (commands[count] == '[') passFactor--
                     }
                 }
             }

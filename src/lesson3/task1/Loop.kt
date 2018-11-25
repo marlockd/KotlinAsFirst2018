@@ -205,7 +205,13 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun findAns(n: Int, count: Int) = n / pow(10.0, count.toDouble()).toInt() % 10
+fun powInt(n: Int, m: Int): Int {
+    var result = 1
+    for (i in 1..m) result *= n
+    return result
+}
+
+fun findAns(n: Int, count: Int) = n / powInt(10, count) % 10
 
 fun squareSequenceDigit(n: Int): Int {
     var count = 0

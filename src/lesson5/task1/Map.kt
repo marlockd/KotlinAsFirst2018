@@ -275,37 +275,39 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    val treasures1 = ArrayList(treasures.keys)
+    val treasuresName = ArrayList(treasures.keys)
     val count1 = capacity + 1
     val count2 = treasures.size + 1
-    val arr = Array(count2) { Array(count1) { 0 } }
-    var set = setOf<String>()
+    val arrayOfCost = Array(count2) { Array(count1) { 0 } }
+    var setOfTreasures = setOf<String>()
     for (i in 0 until count1)
-        arr[0][i] = 0
+        arrayOfCost[0][i] = 0
     for (i in 0 until count2)
-        arr[i][0] = 0
+        arrayOfCost[i][0] = 0
     for (i in 1 until count2)
-        for (j in 1 until count1)
-            if (j >= treasures.values.toList()[i - 1].first)
-                arr[i][j] = max(arr[i - 1][j], arr[i - 1][j - treasures.values.toList()[i - 1].first] + treasures.values.toList()[i - 1].second)
+        for (j in 1 until count1) {
+            val weight = treasures.values.toList()[i - 1].first
+            val cost = treasures.values.toList()[i - 1].second
+            if (j >= weight)
+                arrayOfCost[i][j] = max(arrayOfCost[i - 1][j], arrayOfCost[i - 1][j - weight] + cost)
             else
-                arr[i][j] = arr[i - 1][j]
-
+                arrayOfCost[i][j] = arrayOfCost[i - 1][j]
+        }
 
 
     fun findAns(i: Int, j: Int) {
-        if (arr[i][j] == 0)
+        if (arrayOfCost[i][j] == 0)
             return
-        if (arr[i - 1][j] == arr[i][j])
+        if (arrayOfCost[i - 1][j] == arrayOfCost[i][j])
             findAns(i - 1, j)
         else {
             findAns(i - 1, j - treasures.values.toList()[i - 1].first)
-            set += treasures1[i - 1]
+            setOfTreasures += treasuresName[i - 1]
         }
     }
     findAns(treasures.size, capacity)
 
-    return set
+    return setOfTreasures
 }
 
 
