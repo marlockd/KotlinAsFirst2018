@@ -271,8 +271,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         if (str[i] == "") {
             writer.write("\n\t\t</p>\n\t\t<p>\n\t\t\t")
 
-        }
-        else {
+        } else {
             str[i] = Regex("""\*\*""").replace(str[i], "☺") //временная замена для облегчения поиcка
             str[i] = Regex("""~~""").replace(str[i], "☻") //аналогично
             val currentStr = str[i].toList()
@@ -283,33 +282,42 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                     currentStr[j] == '☻' -> countTagS++
                 }
             }
-            if ((countTagB % 2 == 0) && (countTagI % 2 == 0) && (countTagS % 2 == 0)) for (j in 0 until currentStr.size) {
+            for (j in 0 until currentStr.size) {
                 when {
-                    (currentStr[j] == '*') && !openedTagI -> {
+                    (currentStr[j] == '*') && !openedTagI && countTagI > 1 -> {
                         writer.write("<i>")
                         openedTagI = true
+                        countTagI--
                     }
                     (currentStr[j] == '*') && openedTagI -> {
                         writer.write("</i>")
                         openedTagI = false
+                        countTagI--
                     }
-                    (currentStr[j] == '☺') && !openedTagB -> {
+                    (currentStr[j] == '☺') && !openedTagB && countTagB > 1 -> {
                         writer.write("<b>")
                         openedTagB = true
+                        countTagB--
                     }
                     (currentStr[j] == '☺') && openedTagB -> {
                         writer.write("</b>")
                         openedTagB = false
+                        countTagB--
                     }
-                    (currentStr[j] == '☻') && !openedTagS -> {
+                    (currentStr[j] == '☻') && !openedTagS && countTagS > 1 -> {
                         writer.write("<s>")
                         openedTagS = true
+                        countTagS--
                     }
                     (currentStr[j] == '☻') && openedTagS -> {
                         writer.write("</s>")
                         openedTagS = false
+                        countTagS--
                     }
-                    else -> writer.write(currentStr[j].toString())
+                    else -> if (currentStr[j] == '☺') writer.write("**")//обратно "декодируем" ранее замененные символы
+                    else if (currentStr[j] == '☻') writer.write("~~")//обратно "декодируем" ранее замененные символы
+                    else
+                        writer.write(currentStr[j].toString())
                 }
             }
         }
@@ -318,6 +326,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     writer.write("\n\t\t</p>\n\t</body>\n</html>")
     writer.close()
 }
+
 
 
 
