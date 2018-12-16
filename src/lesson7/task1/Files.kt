@@ -268,6 +268,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     writer.write("<html>\n\t<body>\n\t\t<p>\n\t\t\t")
 
     for(i in 0 until str.size){
+        str[i] = Regex("""\*\*\*""").replace(str[i], "☺*")
         str[i] = Regex("""\*\*""").replace(str[i], "☺") //временная замена для облегчения поиcка
         str[i] = Regex("""~~""").replace(str[i], "☻") //аналогично
         val currentStr = str[i].toList()
