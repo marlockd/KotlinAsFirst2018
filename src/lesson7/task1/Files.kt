@@ -265,10 +265,9 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var openedTagI = false
     var openedTagB = false
     var openedTagS = false
-    var completeParagraph = false
     writer.write("<html>\n\t<body>\n\t\t<p>\n\t\t\t")
 
-    for(i in 0 until str.size){
+    for (i in 0 until str.size) {
         str[i] = Regex("""\*\*""").replace(str[i], "☺") //временная замена для облегчения поиcка
         str[i] = Regex("""~~""").replace(str[i], "☻") //аналогично
         val currentStr = str[i].toList()
@@ -283,13 +282,11 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 
     }
     for (i in 0 until str.size) {
-        if ((str[i] == "") && !completeParagraph) {
+        if ((str[i] == "") && (str[i - 1] != "")) {
             writer.write("\n\t\t</p>\n\t\t<p>\n\t\t\t")
-            completeParagraph = true
+
 
         } else {
-            if (str[i] == "") continue
-            completeParagraph = false
             val currentStr = str[i].toList()
             for (j in 0 until currentStr.size) {
                 when {
@@ -330,11 +327,12 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                 }
             }
         }
-
     }
+
     writer.write("\n\t\t</p>\n\t</body>\n</html>")
     writer.close()
 }
+
 
 
 
