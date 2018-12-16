@@ -282,7 +282,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 
     }
     for (i in 0 until str.size) {
-        if ((str[i] == "") && (str[i - 1] != "")) {
+        if ((str[i] == "") && (str[i - 1] != "") && (i != 0)) {
             writer.write("\n\t\t</p>\n\t\t<p>\n\t\t\t")
 
         } else {
