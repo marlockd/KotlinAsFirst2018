@@ -257,8 +257,69 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val str = File(inputName).readLines().toMutableList()
+    var countTagI = 0
+    var countTagB = 0
+    var countTagS = 0
+    var openedTagI = false
+    var openedTagB = false
+    var openedTagS = false
+    writer.write("<html>\n\t<body>\n\t\t<p>\n\t\t\t")
+
+    for (i in 0 until str.size) {
+        if (str[i] == "") {
+            writer.write("\n\t\t</p>\n\t\t<p>\n\t\t\t")
+
+        }
+        else {
+            str[i] = Regex("""\*\*""").replace(str[i], "☺") //временная замена для облегчения поиcка
+            str[i] = Regex("""~~""").replace(str[i], "☻") //аналогично
+            val currentStr = str[i].toList()
+            for (j in 0 until currentStr.size) {
+                when {
+                    currentStr[j] == '*' -> countTagI++
+                    currentStr[j] == '☺' -> countTagB++
+                    currentStr[j] == '☻' -> countTagS++
+                }
+            }
+            if ((countTagB % 2 == 0) && (countTagI % 2 == 0) && (countTagS % 2 == 0)) for (j in 0 until currentStr.size) {
+                when {
+                    (currentStr[j] == '*') && !openedTagI -> {
+                        writer.write("<i>")
+                        openedTagI = true
+                    }
+                    (currentStr[j] == '*') && openedTagI -> {
+                        writer.write("</i>")
+                        openedTagI = false
+                    }
+                    (currentStr[j] == '☺') && !openedTagB -> {
+                        writer.write("<b>")
+                        openedTagB = true
+                    }
+                    (currentStr[j] == '☺') && openedTagB -> {
+                        writer.write("</b>")
+                        openedTagB = false
+                    }
+                    (currentStr[j] == '☻') && !openedTagS -> {
+                        writer.write("<s>")
+                        openedTagS = true
+                    }
+                    (currentStr[j] == '☻') && openedTagS -> {
+                        writer.write("</s>")
+                        openedTagS = false
+                    }
+                    else -> writer.write(currentStr[j].toString())
+                }
+            }
+        }
+
+    }
+    writer.write("\n\t\t</p>\n\t</body>\n</html>")
+    writer.close()
 }
+
+
 
 /**
  * Сложная
