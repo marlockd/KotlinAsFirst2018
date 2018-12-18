@@ -2,10 +2,7 @@
 package lesson8.task1
 
 import lesson1.task1.sqr
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * Точка на плоскости
@@ -76,7 +73,7 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double = max(center.distance(other.center) - radius - other.radius, 0.0)
 
     /**
      * Тривиальная
@@ -158,7 +155,6 @@ fun lineBySegment(s: Segment): Line = TODO()
  * Построить прямую по двум точкам
  */
 fun lineByPoints(a: Point, b: Point): Line = TODO()
-
 /**
  * Сложная
  *
@@ -172,7 +168,17 @@ fun bisectorByPoints(a: Point, b: Point): Line = TODO()
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalArgumentException()
+    var lastCircles = circles[0] to circles[1]
+    for (i in 0 until (circles.size - 1))
+        for (j in i + 1 until circles.size) {
+            val newCircles = circles[i] to circles[j]
+            if (newCircles.first.distance(newCircles.second) < lastCircles.first.distance(lastCircles.second))
+                lastCircles = newCircles
+        }
+    return lastCircles
+}
 
 /**
  * Сложная

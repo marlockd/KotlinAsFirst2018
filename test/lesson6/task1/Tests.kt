@@ -144,4 +144,12 @@ class Tests {
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
 
     }
+
+    @Test
+    @Tag(":)")
+    fun football() {
+        assertEquals(mapOf("Зенит" to 1, "ПСЖ" to 1, "Спартак" to 3), football("Спартак-Зенит 4:0;Зенит-ПСЖ 0:0"))
+
+
+    }
 }

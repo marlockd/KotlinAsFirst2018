@@ -276,22 +276,17 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     val treasuresName = ArrayList(treasures.keys)
-    val count1 = capacity + 1
-    val count2 = treasures.size + 1
+    val count1 = capacity + 1       // не понимаю на что мне нужно заменить название, переменные изначально были
+    val count2 = treasures.size + 1 // созданы для того чтобы сократить сл. строку в длине :)
     val arrayOfCost = Array(count2) { Array(count1) { 0 } }
     var setOfTreasures = setOf<String>()
-    for (i in 0 until count1)
-        arrayOfCost[0][i] = 0
-    for (i in 0 until count2)
-        arrayOfCost[i][0] = 0
-    for (i in 1 until count2)
+    for ((i, treasure) in treasures.values.withIndex())
         for (j in 1 until count1) {
-            val weight = treasures.values.toList()[i - 1].first
-            val cost = treasures.values.toList()[i - 1].second
+            val (weight, cost) = treasure
             if (j >= weight)
-                arrayOfCost[i][j] = max(arrayOfCost[i - 1][j], arrayOfCost[i - 1][j - weight] + cost)
+                arrayOfCost[i + 1][j] = max(arrayOfCost[i][j], arrayOfCost[i][j - weight] + cost)
             else
-                arrayOfCost[i][j] = arrayOfCost[i - 1][j]
+                arrayOfCost[i + 1][j] = arrayOfCost[i][j]
         }
 
 

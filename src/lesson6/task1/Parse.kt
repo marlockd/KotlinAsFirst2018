@@ -261,3 +261,37 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
 
 }
 
+fun football(str: String): MutableMap<String, Int> {
+    val listOfMatches = str.split(";")
+    val result = mutableMapOf<String, Int>()
+    var currVal: Int
+    listOfMatches.forEach {
+        val scoreTeam1 = it.split(" ")[1].split(":")[0]
+        val scoreTeam2 = it.split(" ")[1].split(":")[1]
+        val team1 = it.split(" ")[0].split("-")[0]
+        val team2 = it.split(" ")[0].split("-")[1]
+        if (team1 !in result) result[team1] = 0
+        if (team2 !in result) result[team2] = 0
+        when {
+            scoreTeam1 > scoreTeam2 -> {
+                currVal = result.getValue(team1) + 3
+                result[team1] = currVal
+            }
+            scoreTeam1 == scoreTeam2 -> {
+                currVal = result.getValue(team1) + 1
+                result[team1] = currVal
+                currVal = result.getValue(team2) + 1
+                result[team2] = currVal
+            }
+            else -> {
+                currVal = result.getValue(team2) + 3
+                result[team2] = currVal
+            }
+        }
+
+    }
+    return result
+}
+
+
+
